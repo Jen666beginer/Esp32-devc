@@ -1,0 +1,21 @@
+#include <Arduino.h>
+#include <TFT_eSPI.h>
+
+extern TFT_eSPI tft;
+
+void _setup_gpio() {}
+void _post_setup_gpio() {
+    pinMode(TFT_BL, OUTPUT);
+    digitalWrite(TFT_BL, TFT_BACKLIGHT_ON);
+}
+
+bool getTouchCoordinates(uint16_t &x, uint16_t &y) {
+    uint16_t touchX = 0, touchY = 0;
+    bool pressed = tft.getTouch(&touchX, &touchY, 600); // 600 = citlivost stisku
+    if (pressed) {
+        x = touchX;
+        y = touchY;
+        return true;
+    }
+    return false;
+}
